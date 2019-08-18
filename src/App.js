@@ -1,5 +1,6 @@
 import React from 'react';
 import ReviewList from './components/reviewList';
+import Header from './components/header'
 import './App.css';
 
 
@@ -33,6 +34,7 @@ export default class App extends React.Component {
     render() {
         return (
         <div>
+            <Header />
             <ReviewList reviewArray={this.state.reviewArray}/>
         </div>
         );
