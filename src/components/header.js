@@ -1,4 +1,5 @@
 import React from "react";
+import PostModal from './postModal'
 import "../index.css";
 
 export default class Header extends React.Component {
@@ -17,7 +18,7 @@ export default class Header extends React.Component {
                 </form>
               </li>
               <li>
-                <input type="button" value="投稿" />
+                <PostModal />
               </li>
             </ul>
           </p>
