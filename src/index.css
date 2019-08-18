@@ -1,0 +1,36 @@
+header {
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 70px;
+  position: fixed;
+  background-color: aliceblue;
+}
+button {
+  font-size: 20px;
+}
+ul.headerBullet {
+  justify-content: center;
+  list-style: None;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+header ul button {
+  display: inline-block;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  color: #67c5ff;
+  border: double 4px #67c5ff;
+  border-radius: 3px;
+  transition: 0.4s;
+}
+ul.headerBullet li {
+  width: 10%;
+  flex-basis: 10em;
+  display: table-cell;
+  font-size: 1.3rem;
+  font-weight: bold;
+  flex-grow: 1;
+}
