@@ -7,10 +7,6 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-        inputLaboratoryName: "",
-        inputStarCount: "",
-        inputReviewBody: "",
-
         reviewArray: [
         {
           laboratoryName: "長尾研究室",
@@ -33,61 +29,43 @@ export default class App extends React.Component {
       ] // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
     };
     this.postReview = this.postReview.bind(this);
-    this.handleChangeLaboratoryName = this.handleChangeLaboratoryName.bind(this);
-    this.handleChangeStarCount = this.handleChangeStarCount.bind(this);
-    this.handleChangeReviewBody = this.handleChangeReviewBody.bind(this);
-    this.resetInputValue = this.resetInputValue.bind(this);
   }
 
-  postReview() {
+  postReview(laboratoryName, starCount, reviewBody) {
+      const LabName = laboratoryName;
+      const StaCount = starCount;
+      const RevBody = reviewBody;
+
+      if (LabName === "" || StaCount === "" || RevBody === "") {
+          return false;
+      }
+
+      if (!(StaCount === "1" || StaCount === "2" || StaCount === "3" || StaCount === "4" || StaCount === "5")) {
+        return false;
+      }
+
       const date = getDate();
       const reviewArray = this.state.reviewArray;
       this.setState({
           reviewArray: reviewArray.concat([{
-            laboratoryName: this.state.inputLaboratoryName,
+            laboratoryName: LabName,
             date: date,
-            starCount: this.state.inputStarCount,
-            reviewBody: this.state.inputReviewBody
+            starCount: StaCount,
+            reviewBody: RevBody
           }])
       })
+      return true;
   }
-
-  handleChangeLaboratoryName(e) {
-      this.setState({
-          inputLaboratoryName: e.target.value,
-      });
-  }
-
-  handleChangeStarCount(e) {
-        this.setState({
-            inputStarCount: e.target.value,
-        });
-    }
-
-  handleChangeReviewBody(e) {
-        this.setState({
-            inputReviewBody: e.target.value,
-        });
-    }
-
-  resetInputValue() {
-      this.setState({
-          inputLaboratoryName: "",
-          inputStarCount: "",
-          inputReviewBody: ""
-      });
-    }
 
   render() {
-      console.log(this.state.reviewArray)
     return (
       <div>
-        <Header postReview={this.postReview} onChangeLaboratoryName={this.handleChangeLaboratoryName} onChangeStarCount={this.handleChangeStarCount} onChangeReviewBody={this.handleChangeReviewBody} resetInputValue={this.resetInputValue}/>
-        <body>
-          <div class="main">
+        <Header postReview={this.postReview}/>
+        <div>
+          <div className="main">
             <ReviewList reviewArray={this.state.reviewArray} />
           </div>
-        </body>
+        </div>
       </div>
     );
   }

@@ -1,6 +1,5 @@
 import React from "react";
 import Modal from "react-modal";
-import ReviewBlock from "./reviewBlock";
 
 const customStyles = {
   content: {
@@ -21,11 +20,20 @@ export default class PostModal extends React.Component {
   constructor() {
     super();
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      inputLaboratoryName: "",
+      inputStarCount: "",
+      inputReviewBody: "",
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
+    this.handleChangeLabName = this.handleChangeLabName.bind(this);
+    this.handleChangeStaCount = this.handleChangeStaCount.bind(this);
+    this.handleChangeRevBody = this.handleChangeRevBody.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+    this.resetInputValue = this.resetInputValue.bind(this);
+
   }
   openModal() {
     this.setState({ modalIsOpen: true });
@@ -37,12 +45,35 @@ export default class PostModal extends React.Component {
     this.setState({ modalIsOpen: false });
   }
 
-  handleClick() {
-    this.props.postReview();
+  handleChangeLabName(e) {
+      this.setState({inputLaboratoryName: e.target.value});
+  }
 
+  handleChangeStaCount(e) {
+      this.setState({inputStarCount: e.target.value});
+  }
+
+  handleChangeRevBody(e) {
+      this.setState({inputReviewBody: e.target.value});
+  }
+
+  resetInputValue() {
+      this.setState({
+          inputLaboratoryName: "",
+          inputStarCount: "",
+          inputReviewBody: ""
+      })
+  }
+
+  handleClick() {
+    if (this.props.postReview(this.state.inputLaboratoryName, this.state.inputStarCount, this.state.inputReviewBody)) {
+        this.resetInputValue();
+        this.closeModal();
+    }
   }
 
   render() {
+      console.log(this.state.inputLaboratoryName)
     return (
       <div>
         <button onClick={this.openModal}>投稿</button>
@@ -54,24 +85,24 @@ export default class PostModal extends React.Component {
           contentLabel="Example Modal"
         >
           <div onClick={this.closeModal}>×</div>
-          <div class="modallab">
+          <div className="modallab">
             研究室名
             <br />
-            <input type="text" onChange={this.props.onChangeLaboratoryName}/>
+            <input type="text" onChange={this.handleChangeLabName} value={this.state.inputLaboratoryName}/>
           </div>
-          <div class="modalstar">
+          <div className="modalstar">
             評価
             <br />
-            <input type="text" onChange={this.props.onChangeStarCount}/>
+            <input type="text" onChange={this.handleChangeStaCount} placeholder="1~5" value={this.state.inputStarCount}/>
           </div>
-          <div class="modalreview">
+          <div className="modalreview">
             レビュー
             <br />
-            <input type="textarea" onChange={this.props.onChangeReviewBody}/>
+            <input type="textarea" onChange={this.handleChangeRevBody} value={this.state.inputReviewBody}/>
           </div>
           <br />
-          <div class="modaltoukou">
-            <button onClick={this.props.postReview}>投稿</button>
+          <div className="modaltoukou">
+            <button onClick={this.handleClick}>投稿</button>
           </div>
         </Modal>
       </div>

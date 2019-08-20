@@ -16,10 +16,10 @@ import React from "react";
 const ReviewBlock = props => {
   return (
     <div className="reviewBlockContainer">
-      <div class="lab">{props.laboratoryName}</div>
-      <div class="date">{props.date}</div>
-      <div class="star">評価：{props.starCount}</div>
-      <div class="review">{props.reviewBody}</div>
+      <div className="lab">{props.laboratoryName}</div>
+      <div className="date">{props.date}</div>
+      <div className="star">評価：{props.starCount}</div>
+      <div className="review">{props.reviewBody}</div>
     </div>
   );
 };

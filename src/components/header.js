@@ -10,14 +10,14 @@ export default class Header extends React.Component {
         <header>
           <p>
             <ul className="headerBullet">
-              <li class="title"> Nagoya.Univ's KBL</li>
+              <li className="title"> Nagoya.Univ's KBL</li>
               <li>
-                <input class="kensakumado" type="text" name="kensaku" />
-                <button class="kensakubutton">検索</button>
+                <input className="kensakumado" type="text" name="kensaku" />
+                <button className="kensakubutton">検索</button>
               </li>
 
               <li>
-                <PostModal postReview={this.props.postReview} onChangeLaboratoryName={this.props.onChangeLaboratoryName} onChangeStarCount={this.props.onChangeStarCount} onChangeReviewBody={this.props.onChangeReviewBody} resetInputValue={this.props.resetInputValue}/>
+                <PostModal postReview={this.props.postReview}/>
               </li>
             </ul>
           </p>
