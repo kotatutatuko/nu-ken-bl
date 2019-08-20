@@ -1,5 +1,5 @@
 import React from "react";
-import PostModal from './postModal'
+import PostModal from "./postModal";
 import "../index.css";
 
 export default class Header extends React.Component {
@@ -10,13 +10,12 @@ export default class Header extends React.Component {
         <header>
           <p>
             <ul className="headerBullet">
-              <li>NKBL</li>
+              <li class="title"> Nagoya.Univ's KBL</li>
               <li>
-                <form acrion="#" method="post">
-                  <input type="text" name="kensaku" />
-                  <input type="button" value="検索" />
-                </form>
+                <input class="kensakumado" type="text" name="kensaku" />
+                <button class="kensakubutton">検索</button>
               </li>
+
               <li>
                 <PostModal />
               </li>
