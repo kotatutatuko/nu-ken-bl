@@ -36,6 +36,12 @@ export default class PostModal extends React.Component {
   closeModal() {
     this.setState({ modalIsOpen: false });
   }
+
+  handleClick() {
+    this.props.postReview();
+
+  }
+
   render() {
     return (
       <div>
@@ -51,21 +57,21 @@ export default class PostModal extends React.Component {
           <div class="modallab">
             研究室名
             <br />
-            <input type="text" />
+            <input type="text" onChange={this.props.onChangeLaboratoryName}/>
           </div>
           <div class="modalstar">
             評価
             <br />
-            <input type="text" />
+            <input type="text" onChange={this.props.onChangeStarCount}/>
           </div>
           <div class="modalreview">
             レビュー
             <br />
-            <input type="textarea" />
+            <input type="textarea" onChange={this.props.onChangeReviewBody}/>
           </div>
           <br />
           <div class="modaltoukou">
-            <button>投稿</button>
+            <button onClick={this.props.postReview}>投稿</button>
           </div>
         </Modal>
       </div>

@@ -17,7 +17,7 @@ export default class Header extends React.Component {
               </li>
 
               <li>
-                <PostModal />
+                <PostModal postReview={this.props.postReview} onChangeLaboratoryName={this.props.onChangeLaboratoryName} onChangeStarCount={this.props.onChangeStarCount} onChangeReviewBody={this.props.onChangeReviewBody} resetInputValue={this.props.resetInputValue}/>
               </li>
             </ul>
           </p>
