@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 // props 研究室名:laboratoryName  日付:date  星の数:starCount  レビュー本文: reviewBody
 
@@ -13,17 +13,15 @@ import React from 'react';
 // またはコンストラクターでbindする  (こちらのほうが早いらしい(?))
 // <例> this.handleClick = this.handleClick.bind(this);
 
-
-
-const ReviewBlock = (props) => {
-    return (
-        <div className="reviewBlockContainer">
-            <div>研究室名:{props.laboratoryName}</div>
-            <div>{props.date}</div>
-            <div>{props.starCount}</div>
-            <div>{props.reviewBody}</div>
-        </div>
-        );
-}
+const ReviewBlock = props => {
+  return (
+    <div className="reviewBlockContainer">
+      <div class="lab">{props.laboratoryName}</div>
+      <div class="date">{props.date}</div>
+      <div class="star">評価：{props.starCount}</div>
+      <div class="review">{props.reviewBody}</div>
+    </div>
+  );
+};
 
 export default ReviewBlock;
