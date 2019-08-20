@@ -7,6 +7,7 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
+        searchValue: "",
         reviewArray: [
         {
           laboratoryName: "長尾研究室",
@@ -26,9 +27,18 @@ export default class App extends React.Component {
           starCount: 5,
           reviewBody: "ブラウン研究室です"
         }
-      ] // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
+      ], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
+      displayReviewArray: []
     };
+
+    // 表示用の配列を初期化
+    const reviewArray = this.state.reviewArray.slice();
+    this.state.displayReviewArray = reviewArray;
+
     this.postReview = this.postReview.bind(this);
+    this.getDisplayReview = this.getDisplayReview.bind(this);
+
+
   }
 
   postReview(laboratoryName, starCount, reviewBody) {
@@ -57,13 +67,27 @@ export default class App extends React.Component {
       return true;
   }
 
+  getDisplayReview(searchValue) {
+      if (searchValue === "") {
+          this.setState({displayReviewArray: this.state.reviewArray});
+      }
+
+      const allReviewArray = this.state.reviewArray.slice();
+      const displayReviewArray = allReviewArray.filter(review => {
+          return review.laboratoryName.indexOf(searchValue) !== -1
+      })
+
+      this.setState({displayReviewArray: displayReviewArray})
+    }
+
   render() {
-    return (
+     return (
       <div>
-        <Header postReview={this.postReview}/>
+        <Header postReview={this.postReview}
+        getDisplayReview={this.getDisplayReview}/>
         <div>
           <div className="main">
-            <ReviewList reviewArray={this.state.reviewArray} />
+            <ReviewList reviewArray={this.state.displayReviewArray} />
           </div>
         </div>
       </div>
