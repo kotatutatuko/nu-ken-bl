@@ -17,7 +17,7 @@ export default class Header extends React.Component {
               </li>
 
               <li>
-                <PostModal postReview={this.props.postReview}/>
+                <PostModal postReview={this.props.postReview} />
               </li>
             </ul>
           </div>
