@@ -44,18 +44,25 @@ export default class App extends React.Component {
   }
 
   postReview(laboratoryName, starCount, reviewBody) {
-      const LabName = laboratoryName;
-      const StaCount = starCount;
-      const RevBody = reviewBody;
+    const LabName = laboratoryName;
+    const StaCount = starCount;
+    const RevBody = reviewBody;
 
-      if (LabName === "" || StaCount === "" || RevBody === "") {
-          return false;
-      }
+    if (LabName === "" || StaCount === "" || RevBody === "") {
+      return false;
+    }
 
-      if (!(StaCount === "1" || StaCount === "2" || StaCount === "3" || StaCount === "4" || StaCount === "5")) {
-        return false;
-      }
-
+    if (
+      !(
+        StaCount === "1" ||
+        StaCount === "2" ||
+        StaCount === "3" ||
+        StaCount === "4" ||
+        StaCount === "5"
+      )
+    ) {
+      return false;
+    }
       const date = getDate();
       const reviewArray = this.state.reviewArray;
       this.setState({
@@ -98,9 +105,9 @@ export default class App extends React.Component {
 }
 
 const getDate = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-    return year + "年" + month + "月" + day + "日";
-}
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return year + "年" + month + "月" + day + "日";
+};
