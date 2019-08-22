@@ -65,20 +65,19 @@ export default class PostModal extends React.Component {
   }
 
   handleClick() {
-    if (
-      this.props.postReview(
-        this.state.inputLaboratoryName,
-        this.state.inputStarCount,
-        this.state.inputReviewBody
-      )
-    ) {
-      this.resetInputValue();
-      this.closeModal();
+
+=======
+    if (this.props.postReview(this.state.inputLaboratoryName, this.state.inputStarCount, this.state.inputReviewBody)) {
+        this.resetInputValue();
+        this.closeModal();
+        this.props.setDisplayReview(this.props.searchValue);
+
     }
   }
 
   render() {
-    console.log(this.state.inputLaboratoryName);
+
+
     return (
       <div>
         <button onClick={this.openModal}>投稿</button>
