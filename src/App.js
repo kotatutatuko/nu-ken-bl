@@ -7,28 +7,8 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-        searchValue: "",
-        reviewArray: [
-        {
-          laboratoryName: "長尾研究室",
-          date: "2019年8月18日",
-          starCount: 3,
-          reviewBody: "ブラック研究室です"
-        },
-        {
-          laboratoryName: "齋藤研究室",
-          date: "2019年8月19日",
-          starCount: 1,
-          reviewBody: "ホワイト研究室です"
-        },
-        {
-          laboratoryName: "田中研究室",
-          date: "2019年8月20日",
-          starCount: 5,
-          reviewBody: "ブラウン研究室です"
-        }
-      ], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
-      displayReviewArray: []
+        reviewArray: [], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
+        displayReviewArray: []
     };
 
     // 表示用の配列を初期化
@@ -36,7 +16,7 @@ export default class App extends React.Component {
     this.state.displayReviewArray = reviewArray;
 
     this.postReview = this.postReview.bind(this);
-    this.getDisplayReview = this.getDisplayReview.bind(this);
+    this.setDisplayReview = this.setDisplayReview.bind(this);
 
 
   }
@@ -57,17 +37,17 @@ export default class App extends React.Component {
       const date = getDate();
       const reviewArray = this.state.reviewArray;
       this.setState({
-          reviewArray: reviewArray.concat([{
+          reviewArray: [{
             laboratoryName: LabName,
             date: date,
             starCount: StaCount,
             reviewBody: RevBody
-          }])
-      })
+          }].concat(reviewArray)
+      });
       return true;
   }
 
-  getDisplayReview(searchValue) {
+  setDisplayReview(searchValue) {
       if (searchValue === "") {
           this.setState({displayReviewArray: this.state.reviewArray});
       }
@@ -81,10 +61,11 @@ export default class App extends React.Component {
     }
 
   render() {
+      console.log(this.state.displayReviewArray)
      return (
       <div>
         <Header postReview={this.postReview}
-        getDisplayReview={this.getDisplayReview}/>
+        setDisplayReview={this.setDisplayReview}/>
         <div>
           <div className="main">
             <ReviewList reviewArray={this.state.displayReviewArray} />

@@ -12,12 +12,11 @@ export default class Header extends React.Component {
   }
 
   handleChangeSearch(e) {
-    this.props.getDisplayReview(e.target.value)
+    this.props.setDisplayReview(e.target.value)
     this.setState({searchValue: e.target.value})
   }
 
   render() {
-    console.log(this.state.searchValue)
     return (
       <div className="headerContainer">
         <header>
@@ -30,7 +29,9 @@ export default class Header extends React.Component {
               </li>
 
               <li>
-                <PostModal postReview={this.props.postReview}/>
+                <PostModal postReview={this.props.postReview}
+                setDisplayReview={this.props.setDisplayReview}
+                searchValue={this.state.searchValue}/>
               </li>
             </ul>
           </p>
