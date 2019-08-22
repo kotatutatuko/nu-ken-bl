@@ -20,7 +20,7 @@ export default class Header extends React.Component {
     return (
       <div className="headerContainer">
         <header>
-          <p>
+          <div className="headerContent">
             <ul className="headerBullet">
               <li className="title"> Nagoya.Univ's KBL</li>
               <li>
@@ -34,7 +34,7 @@ export default class Header extends React.Component {
                 searchValue={this.state.searchValue}/>
               </li>
             </ul>
-          </p>
+          </div>
         </header>
       </div>
     );
