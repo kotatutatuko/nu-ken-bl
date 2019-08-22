@@ -2,15 +2,14 @@ import React from "react";
 import ReviewList from "./components/reviewList";
 import Header from "./components/header";
 import "./App.css";
+import db from './firebase'
 
-//テスト用の文章
 export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
         reviewArray: [], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
-        displayReviewArray: []
-
+        displayReviewArray: [],
     };
 
     // 表示用の配列を初期化
@@ -20,7 +19,28 @@ export default class App extends React.Component {
     this.postReview = this.postReview.bind(this);
     this.setDisplayReview = this.setDisplayReview.bind(this);
 
+    // firestoreから情報の取得
+    // postsの参照を取得
+    const postsCollectionRef = db.collection("posts");
 
+    // reviewArrayにレビューを格納
+    postsCollectionRef.doc("info").get().then(
+      doc => {this.setState({revCount: doc.data().revCount})}
+    ).then(
+      () => {
+        for (let i = 0; i < this.state.revCount; i++) {
+          const post = "post" + i;
+          postsCollectionRef.doc(post).get().then(
+            doc => {
+              const postData = doc.data();
+              const reviewArray = this.state.reviewArray.slice();
+              this.setState({reviewArray: [postData].concat(reviewArray),
+                             displayReviewArray: [postData].concat(reviewArray)});
+            }
+          )
+        }
+      }
+    )
   }
 
   postReview(laboratoryName, starCount, reviewBody) {
@@ -70,7 +90,6 @@ export default class App extends React.Component {
     }
 
   render() {
-      console.log(this.state.displayReviewArray)
      return (
       <div>
         <Header postReview={this.postReview}
