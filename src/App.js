@@ -23,6 +23,8 @@ export default class App extends React.Component {
     // postsの参照を取得
     const postsCollectionRef = db.collection("posts");
 
+
+    /*
     // reviewArrayにレビューを格納
     postsCollectionRef
       .doc("info")
@@ -46,6 +48,28 @@ export default class App extends React.Component {
             });
         }
       });
+      */
+
+
+    // レビュー追加時にstateにレビューを追加
+    postsCollectionRef.onSnapshot(snapshot => {
+      snapshot.docChanges().forEach(change => {
+        let source = snapshot.metadata.hasPendingWrites ? "Local" : "Server";
+        if (change.type === "added" && source === "Server" && typeof change.doc.data().revCount === "undefined") {
+          const reviewArray = this.state.reviewArray.slice();
+          const displayReviewArray = this.state.displayReviewArray.slice();
+          const addedData = change.doc.data();
+          this.setState({
+            reviewArray: [addedData].concat(reviewArray),
+            displayReviewArray: [addedData].concat(displayReviewArray)
+          })
+        } else if (change.type === "modified" && source === "Local" && typeof change.doc.data().revCount === "undefined") {
+          const displayReviewArray = this.state.displayReviewArray.slice();
+          const addedData = change.doc.data();
+          this.setState({displayReviewArray: [addedData].concat(displayReviewArray)});
+        }
+      })
+    })
   }
 
   postReview(laboratoryName, starCount, reviewBody) {
@@ -90,7 +114,7 @@ export default class App extends React.Component {
       reviewBody: reviewBody
     });
     const count = this.state.revCount + 1;
-    postsCollectionRef.doc("info").set({
+    postsCollectionRef.doc("info").update({
       revCount: count
     });
 
