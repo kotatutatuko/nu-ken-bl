@@ -102,9 +102,9 @@ body {
 
 /*modalwindow*/
 .modallab,
-.modalreview,
 .modalstar,
-.modaltoukou {
+.modaltoukou,
+.modalreview {
   text-align: center;
   font-size: 1.2rem;
   padding-top: 2rem;
@@ -114,8 +114,13 @@ body {
   width: 10rem;
   font-size: 1.5rem;
 }
-.modalreview input {
-  width: 25rem;
-  height: 12rem;
-  font-size: 1.2rem;
+
+.modalreview .review {
+  text-align: center;
+  padding-top: 2rem;
+  width: 20rem;
+  height: 10rem;
+}
+.modalreview .review {
+  font-size: 1.1rem;
 }

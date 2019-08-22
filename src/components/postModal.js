@@ -4,7 +4,7 @@ import Modal from "react-modal";
 const customStyles = {
   content: {
     width: "30rem",
-    height: "30rem",
+    height: "36rem",
     top: "50%",
     left: "50%",
     right: "auto",
@@ -23,7 +23,7 @@ export default class PostModal extends React.Component {
       modalIsOpen: false,
       inputLaboratoryName: "",
       inputStarCount: "",
-      inputReviewBody: "",
+      inputReviewBody: ""
     };
     this.openModal = this.openModal.bind(this);
     this.afterOpenModal = this.afterOpenModal.bind(this);
@@ -33,7 +33,6 @@ export default class PostModal extends React.Component {
     this.handleChangeRevBody = this.handleChangeRevBody.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.resetInputValue = this.resetInputValue.bind(this);
-
   }
   openModal() {
     this.setState({ modalIsOpen: true });
@@ -46,34 +45,39 @@ export default class PostModal extends React.Component {
   }
 
   handleChangeLabName(e) {
-      this.setState({inputLaboratoryName: e.target.value});
+    this.setState({ inputLaboratoryName: e.target.value });
   }
 
   handleChangeStaCount(e) {
-      this.setState({inputStarCount: e.target.value});
+    this.setState({ inputStarCount: e.target.value });
   }
 
   handleChangeRevBody(e) {
-      this.setState({inputReviewBody: e.target.value});
+    this.setState({ inputReviewBody: e.target.value });
   }
 
   resetInputValue() {
-      this.setState({
-          inputLaboratoryName: "",
-          inputStarCount: "",
-          inputReviewBody: ""
-      })
+    this.setState({
+      inputLaboratoryName: "",
+      inputStarCount: "",
+      inputReviewBody: ""
+    });
   }
 
   handleClick() {
+
+=======
     if (this.props.postReview(this.state.inputLaboratoryName, this.state.inputStarCount, this.state.inputReviewBody)) {
         this.resetInputValue();
         this.closeModal();
         this.props.setDisplayReview(this.props.searchValue);
+
     }
   }
 
   render() {
+
+
     return (
       <div>
         <button onClick={this.openModal}>投稿</button>
@@ -88,17 +92,32 @@ export default class PostModal extends React.Component {
           <div className="modallab">
             研究室名
             <br />
-            <input type="text" onChange={this.handleChangeLabName} value={this.state.inputLaboratoryName}/>
+            <input
+              type="text"
+              onChange={this.handleChangeLabName}
+              value={this.state.inputLaboratoryName}
+            />
           </div>
           <div className="modalstar">
             評価
             <br />
-            <input type="text" onChange={this.handleChangeStaCount} placeholder="1~5" value={this.state.inputStarCount}/>
+            <input
+              type="text"
+              onChange={this.handleChangeStaCount}
+              placeholder="1~5"
+              value={this.state.inputStarCount}
+            />
           </div>
           <div className="modalreview">
             レビュー
             <br />
-            <input type="textarea" onChange={this.handleChangeRevBody} value={this.state.inputReviewBody}/>
+            <textarea
+              className="review"
+              worws="4"
+              cols="40"
+              onChange={this.handleChangeRevBody}
+              value={this.state.inputReviewBody}
+            />
           </div>
           <br />
           <div className="modaltoukou">
