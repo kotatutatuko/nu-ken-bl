@@ -24,7 +24,7 @@ export default class App extends React.Component {
     const postsCollectionRef = db.collection("posts");
 
 
-    /*
+
     // reviewArrayにレビューを格納
     postsCollectionRef
       .doc("info")
@@ -32,29 +32,13 @@ export default class App extends React.Component {
       .then(doc => {
         this.setState({ revCount: doc.data().revCount });
       })
-      .then(() => {
-        for (let i = 0; i < this.state.revCount; i++) {
-          const post = "post" + i;
-          postsCollectionRef
-            .doc(post)
-            .get()
-            .then(doc => {
-              const postData = doc.data();
-              const reviewArray = this.state.reviewArray.slice();
-              this.setState({
-                reviewArray: [postData].concat(reviewArray),
-                displayReviewArray: [postData].concat(reviewArray)
-              });
-            });
-        }
-      });
-      */
 
 
     // レビュー追加時にstateにレビューを追加
     postsCollectionRef.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         let source = snapshot.metadata.hasPendingWrites ? "Local" : "Server";
+        console.log(change.type)
         if (change.type === "added" && source === "Server" && typeof change.doc.data().revCount === "undefined") {
           const reviewArray = this.state.reviewArray.slice();
           const displayReviewArray = this.state.displayReviewArray.slice();
@@ -63,7 +47,7 @@ export default class App extends React.Component {
             reviewArray: [addedData].concat(reviewArray),
             displayReviewArray: [addedData].concat(displayReviewArray)
           })
-        } else if (change.type === "modified" && source === "Local" && typeof change.doc.data().revCount === "undefined") {
+        } else if (source === "Local" && typeof change.doc.data().revCount === "undefined") {
           const displayReviewArray = this.state.displayReviewArray.slice();
           const addedData = change.doc.data();
           this.setState({displayReviewArray: [addedData].concat(displayReviewArray)});
@@ -114,7 +98,7 @@ export default class App extends React.Component {
       reviewBody: reviewBody
     });
     const count = this.state.revCount + 1;
-    postsCollectionRef.doc("info").update({
+    postsCollectionRef.doc("info").set({
       revCount: count
     });
 
