@@ -38,7 +38,6 @@ export default class App extends React.Component {
     postsCollectionRef.onSnapshot(snapshot => {
       snapshot.docChanges().forEach(change => {
         let source = snapshot.metadata.hasPendingWrites ? "Local" : "Server";
-        console.log(change.type)
         if (change.type === "added" && source === "Server" && typeof change.doc.data().revCount === "undefined") {
           const reviewArray = this.state.reviewArray.slice();
           const displayReviewArray = this.state.displayReviewArray.slice();
