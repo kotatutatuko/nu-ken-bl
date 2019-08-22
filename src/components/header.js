@@ -8,7 +8,7 @@ export default class Header extends React.Component {
       <div className="headerContainer">
         {/*header部分　stateは持たせない*/}
         <header>
-          <p>
+          <div className="headerContent">
             <ul className="headerBullet">
               <li className="title"> Nagoya.Univ's KBL</li>
               <li>
@@ -20,7 +20,7 @@ export default class Header extends React.Component {
                 <PostModal postReview={this.props.postReview}/>
               </li>
             </ul>
-          </p>
+          </div>
         </header>
       </div>
     );
