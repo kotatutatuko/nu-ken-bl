@@ -8,28 +8,19 @@ export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      reviewArray: [
-        {
-          laboratoryName: "長尾研究室",
-          date: "2019年8月18日",
-          starCount: 3,
-          reviewBody: "ブラック研究室です"
-        },
-        {
-          laboratoryName: "齋藤研究室",
-          date: "2019年8月19日",
-          starCount: 1,
-          reviewBody: "ホワイト研究室です"
-        },
-        {
-          laboratoryName: "田中研究室",
-          date: "2019年8月20日",
-          starCount: 5,
-          reviewBody: "ブラウン研究室です"
-        }
-      ] // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
+        reviewArray: [], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
+        displayReviewArray: []
+
     };
+
+    // 表示用の配列を初期化
+    const reviewArray = this.state.reviewArray.slice();
+    this.state.displayReviewArray = reviewArray;
+
     this.postReview = this.postReview.bind(this);
+    this.setDisplayReview = this.setDisplayReview.bind(this);
+
+
   }
 
   postReview(laboratoryName, starCount, reviewBody) {
@@ -52,29 +43,41 @@ export default class App extends React.Component {
     ) {
       return false;
     }
-
-    const date = getDate();
-    const reviewArray = this.state.reviewArray;
-    this.setState({
-      reviewArray: reviewArray.concat([
-        {
-          laboratoryName: LabName,
-          date: date,
-          starCount: StaCount,
-          reviewBody: RevBody
-        }
-      ])
-    });
-    return true;
+      const date = getDate();
+      const reviewArray = this.state.reviewArray;
+      this.setState({
+          reviewArray: [{
+            laboratoryName: LabName,
+            date: date,
+            starCount: StaCount,
+            reviewBody: RevBody
+          }].concat(reviewArray)
+      });
+      return true;
   }
 
+  setDisplayReview(searchValue) {
+      if (searchValue === "") {
+          this.setState({displayReviewArray: this.state.reviewArray});
+      }
+
+      const allReviewArray = this.state.reviewArray.slice();
+      const displayReviewArray = allReviewArray.filter(review => {
+          return review.laboratoryName.indexOf(searchValue) !== -1
+      })
+
+      this.setState({displayReviewArray: displayReviewArray})
+    }
+
   render() {
-    return (
+      console.log(this.state.displayReviewArray)
+     return (
       <div>
-        <Header postReview={this.postReview} />
+        <Header postReview={this.postReview}
+        setDisplayReview={this.setDisplayReview}/>
         <div>
           <div className="main">
-            <ReviewList reviewArray={this.state.reviewArray} />
+            <ReviewList reviewArray={this.state.displayReviewArray} />
           </div>
         </div>
       </div>
