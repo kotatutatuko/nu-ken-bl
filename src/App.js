@@ -79,6 +79,7 @@ export default class App extends React.Component {
   setDisplayReview(searchValue) {
       if (searchValue === "") {
           this.setState({displayReviewArray: this.state.reviewArray});
+          return;
       }
 
       const allReviewArray = this.state.reviewArray.slice();
