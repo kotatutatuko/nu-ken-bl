@@ -69,13 +69,10 @@ export default class PostModal extends React.Component {
         this.resetInputValue();
         this.closeModal();
         this.props.setDisplayReview(this.props.searchValue);
-
     }
   }
 
   render() {
-
-
     return (
       <div>
         <button onClick={this.openModal}>投稿</button>

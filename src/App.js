@@ -2,14 +2,14 @@ import React from "react";
 import ReviewList from "./components/reviewList";
 import Header from "./components/header";
 import "./App.css";
-import db from './firebase'
+import db from "./firebase";
 
 export default class App extends React.Component {
   constructor() {
     super();
     this.state = {
-        reviewArray: [], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
-        displayReviewArray: [],
+      reviewArray: [], // 中身はレビューオブジェクトの配列 キーは laboratoryName, date, starCount, reviewBodyの４つ 適当にデフォルト値を入れときます
+      displayReviewArray: []
     };
 
     // 表示用の配列を初期化
@@ -24,29 +24,35 @@ export default class App extends React.Component {
     const postsCollectionRef = db.collection("posts");
 
     // reviewArrayにレビューを格納
-    postsCollectionRef.doc("info").get().then(
-      doc => {this.setState({revCount: doc.data().revCount})}
-    ).then(
-      () => {
+    postsCollectionRef
+      .doc("info")
+      .get()
+      .then(doc => {
+        this.setState({ revCount: doc.data().revCount });
+      })
+      .then(() => {
         for (let i = 0; i < this.state.revCount; i++) {
           const post = "post" + i;
-          postsCollectionRef.doc(post).get().then(
-            doc => {
+          postsCollectionRef
+            .doc(post)
+            .get()
+            .then(doc => {
               const postData = doc.data();
               const reviewArray = this.state.reviewArray.slice();
-              this.setState({reviewArray: [postData].concat(reviewArray),
-                             displayReviewArray: [postData].concat(reviewArray)});
-            }
-          )
+              this.setState({
+                reviewArray: [postData].concat(reviewArray),
+                displayReviewArray: [postData].concat(reviewArray)
+              });
+            });
         }
-      }
-    )
+      });
   }
 
   postReview(laboratoryName, starCount, reviewBody) {
     const LabName = laboratoryName;
     const StaCount = starCount;
     const RevBody = reviewBody;
+    const postsCollectionRef = db.collection("posts");
 
     if (LabName === "" || StaCount === "" || RevBody === "") {
       return false;
@@ -63,38 +69,54 @@ export default class App extends React.Component {
     ) {
       return false;
     }
-      const date = getDate();
-      const reviewArray = this.state.reviewArray;
-      this.setState({
-          reviewArray: [{
-            laboratoryName: LabName,
-            date: date,
-            starCount: StaCount,
-            reviewBody: RevBody
-          }].concat(reviewArray)
-      });
-      return true;
+    const date = getDate();
+    const reviewArray = this.state.reviewArray;
+    this.setState({
+      reviewArray: [
+        {
+          laboratoryName: LabName,
+          date: date,
+          starCount: StaCount,
+          reviewBody: RevBody
+        }
+      ].concat(reviewArray)
+    });
+
+    const posts = "post" + this.state.revCount;
+    postsCollectionRef.doc(posts).set({
+      laboratoryName: laboratoryName,
+      date: date,
+      starCount: starCount,
+      reviewBody: reviewBody
+    });
+    const count = this.state.revCount + 1;
+    postsCollectionRef.doc("info").set({
+      revCount: count
+    });
+
+    return true;
   }
 
   setDisplayReview(searchValue) {
-      if (searchValue === "") {
-          this.setState({displayReviewArray: this.state.reviewArray});
-          return;
-      }
-
-      const allReviewArray = this.state.reviewArray.slice();
-      const displayReviewArray = allReviewArray.filter(review => {
-          return review.laboratoryName.indexOf(searchValue) !== -1
-      })
-
-      this.setState({displayReviewArray: displayReviewArray})
+    if (searchValue === "") {
+      this.setState({ displayReviewArray: this.state.reviewArray });
     }
 
+    const allReviewArray = this.state.reviewArray.slice();
+    const displayReviewArray = allReviewArray.filter(review => {
+      return review.laboratoryName.indexOf(searchValue) !== -1;
+    });
+
+    this.setState({ displayReviewArray: displayReviewArray });
+  }
+
   render() {
-     return (
+    return (
       <div>
-        <Header postReview={this.postReview}
-        setDisplayReview={this.setDisplayReview}/>
+        <Header
+          postReview={this.postReview}
+          setDisplayReview={this.setDisplayReview}
+        />
         <div>
           <div className="main">
             <ReviewList reviewArray={this.state.displayReviewArray} />
